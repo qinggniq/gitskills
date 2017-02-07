@@ -384,8 +384,17 @@ you should place your code here."
           (indent-buffer)
           (message "Indented buffer.")))))
   (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
-;;;sdasd
-  )
+
+  ;;let dired-recursive-copies and deletes no warning
+  (setq dired-recursive-copies 'always)
+  (setq dired-recursive-deletes 'always)
+
+  ;;make the scrach cleaner
+  (put 'dired-find-alternate-file 'disabled nil)
+  (require 'dired)
+  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+
+)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
