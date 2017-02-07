@@ -385,11 +385,6 @@ you should place your code here."
           (message "Indented buffer.")))))
   (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
 
-  ;;manager my .spacemacs file by github
-  (defun git-manager ()
-    (copy-file "/wc/home/.spacemacs" "/wc/home/gitskills/.spacemacs")
-    (magit-add))
-
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
