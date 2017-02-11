@@ -21,10 +21,10 @@ values."
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'unused
+   dotspacemacs-enable-lazy-installation nil
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
-   dotspacemacs-ask-for-lazy-installation t
+   dotspacemacs-ask-for-lazy-installation nil
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
@@ -34,10 +34,9 @@ values."
    '(
      ;;octave
      ;;markdown
-     c-c++
-     (setq-default dotspacemacs-configuration-layers
-                   '((c-c++ :variables
-                            c-c++-default-mode-for-headers 'c++-mode)))
+     ;; c-c++
+     (c-c++ :variables
+            c-c++-default-mode-for-headers 'c++-mode)
      python
      js2-mode
      ;; ----------------------------------------------------------------
@@ -47,10 +46,12 @@ values."
      ;; ----------------------------------------------------------------
      helm
      auto-completion
-     company
+     ;; company
+     ;;company-irony
      better-defaults
      emacs-lisp
-     git
+     github
+     ;;irony
      ;;latex
      ;;markdown
      html
@@ -61,6 +62,7 @@ values."
      spell-checking
      syntax-checking
      ;; version-control
+
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -70,11 +72,13 @@ values."
                                       swiper
                                       monokai-theme
                                       counsel
+                                      company
+                                      company-irony
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-A '()
    ;; packages list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(auto-complete company-quickhelp)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -333,6 +337,7 @@ you should place your code here."
   ;;(load-theme 'zenburn t)
   (auto-save-mode -1)
   (setq-default cursor-type 'bar)
+  (flycheck-mode t)
   (setq cursor-type 'bar)
   (set-cursor-color "#255555")
   ;;use <f2> as the key to open .spacemacs file
@@ -365,7 +370,6 @@ you should place your code here."
                                               ;;("8ms" "Microsoft")
                                               ("8wc" "wangcong")
                                               ))
-
   ;;indent buffer
   (defun indent-buffer ()
     "indent the current visited buffer"
@@ -408,6 +412,25 @@ you should place your code here."
     (call-interactively 'occur))
 
   (global-set-key (kbd "M-s o") 'occur-dwim)
+
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'objc-mode-hook 'irony-mode)
+
+  ;; replace the `completion-at-point' and `complete-symbol' bindings in
+  ;; irony-mode's buffers by irony-mode's function
+  (defun my-irony-mode-hook ()
+    (define-key irony-mode-map [remap completion-at-point]
+      'irony-completion-at-point-async)
+    (define-key irony-mode-map [remap complete-symbol]
+      'irony-completion-at-point-async))
+  (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+
+  ;;key expand region
+  (global-set-key (kbd "C-=") 'er/expand-region)
+  (global-set-key (kbd "M-s e") 'iedit-mode)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -463,4 +486,6 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cursor ((t (:background "cyan" :foreground "green")))))
+ '(cursor ((t (:background "cyan" :foreground "green"))))
+ '(iedit-occurrence ((t (:inherit region))))
+ '(region ((t (:inherit highlight :background "RoyalBlue4")))))
