@@ -393,6 +393,21 @@ you should place your code here."
   (require 'dired)
   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
 
+  ;;modify occur-mode
+  (defun occur-dwim ()
+    "call 'occur' with a sane default"
+    (interactive)
+    (push (if (region-active-p)
+              (buffer-substring-no-properties
+               (region-beginning)
+               (region-end))
+            (let ((sym (thing-at-point 'symbol)))
+              (when (stringp sym)
+                (regexp-quote sym))))
+          regexp-history)
+    (call-interactively 'occur))
+
+  (global-set-key (kbd "M-s o") 'occur-dwim)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -416,6 +431,9 @@ you should place your code here."
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(popwin:popup-window-position (quote right))
+ '(popwin:popup-window-width 20)
+ '(split-width-threshold 40)
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote
