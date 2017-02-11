@@ -70,7 +70,6 @@ values."
                                       swiper
                                       monokai-theme
                                       counsel
-                                      php-mode
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-A '()
@@ -394,7 +393,7 @@ you should place your code here."
   (require 'dired)
   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
 
-)
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
