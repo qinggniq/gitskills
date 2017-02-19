@@ -24,7 +24,7 @@ values."
    dotspacemacs-enable-lazy-installation nil
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
-   dotspacemacs-ask-for-lazy-installation nil
+   dotspaxcemacs-ask-for-lazy-installation nil
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
@@ -74,6 +74,7 @@ values."
                                       counsel
                                       company
                                       company-irony
+                                      zenburn-theme
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-A '()
@@ -431,6 +432,11 @@ you should place your code here."
   (global-set-key (kbd "C-=") 'er/expand-region)
   (global-set-key (kbd "M-s e") 'iedit-mode)
 
+  ;;set which-key to right window
+  (setq which-key-side-window-location 'right)
+
+  ;;set window font
+  (set-face-attribute 'default nil :height 120)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -480,7 +486,8 @@ you should place your code here."
      (360 . "#DC8CC3"))))
  '(vc-annotate-very-old-color "#DC8CC3")
  '(visible-cursor nil)
- '(void-text-area-pointer nil))
+ '(void-text-area-pointer nil)
+ '(which-key-side-window-max-width 0.5))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
